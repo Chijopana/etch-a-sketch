@@ -1,44 +1,355 @@
-/* style.css */
+/* ===========================================================
+   Etch-a-Sketch — design tokens
+   Red    : #D6293B  (toy frame)
+   Red-dk : #97141F  (frame shadow / bezel)
+   Screen : #C9C9C2 -> #8D8D86 (aluminum gradient)
+   Cream  : #F3ECD9  (knobs, labels, page bg)
+   Ink    : #232323  (default pen / text)
+   Yellow : #F2B705  (accent sticker)
+   =========================================================== */
+ 
+:root {
+  --red: #d6293b;
+  --red-dark: #97141f;
+  --red-darker: #7a0f18;
+  --screen-a: #cfcfc8;
+  --screen-b: #8d8d86;
+  --cream: #f3ecd9;
+  --ink: #232323;
+  --yellow: #f2b705;
+  --page-bg: #e8e2d0;
+  --panel-bg: #fffdf6;
+  --shadow: rgba(30, 20, 10, 0.35);
+  --font-display: "Baloo 2", system-ui, sans-serif;
+  --font-mono: "Space Mono", "Courier New", monospace;
+}
+ 
+body.dark {
+  --page-bg: #17181a;
+  --panel-bg: #232427;
+  --cream: #2c2d30;
+  --ink: #e9e6de;
+  --shadow: rgba(0, 0, 0, 0.6);
+}
+ 
+* { box-sizing: border-box; }
+ 
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    padding: 20px;
-  }
-  
-  .controls {
-    margin-bottom: 20px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    background-color: #3498db;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #2980b9;
-  }
-  
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 960px;
-    height: 960px;
-    border: 2px solid #ccc;
-  }
-  
-  .grid-square {
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-  }
-  
+  margin: 0;
+  min-height: 100vh;
+  background: var(--page-bg);
+  font-family: var(--font-mono);
+  color: var(--ink);
+  padding: 32px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+ 
+/* ---------- brand header ---------- */
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+ 
+.brand-mark {
+  color: var(--yellow);
+  font-size: 1.4rem;
+  transform: rotate(-8deg);
+}
+ 
+.brand h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 1px;
+  color: var(--red);
+  margin: 0;
+  text-shadow: 2px 2px 0 var(--red-darker);
+}
+ 
+.brand-sub {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  opacity: 0.55;
+  align-self: flex-end;
+  margin-bottom: 4px;
+}
+ 
+/* ---------- layout ---------- */
+.toy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 1180px;
+  width: 100%;
+}
+ 
+/* ---------- toy frame ---------- */
+.toy-frame {
+  background: linear-gradient(155deg, var(--red) 0%, var(--red-dark) 100%);
+  border-radius: 34px;
+  padding: 20px 26px 26px;
+  width: min(680px, 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -10px 24px rgba(0, 0, 0, 0.25),
+    0 22px 40px var(--shadow);
+}
+ 
+.readout {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--yellow);
+  background: var(--red-darker);
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+ 
+.screen-bezel {
+  background: var(--red-darker);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+ 
+.screen {
+  background: linear-gradient(160deg, var(--screen-a), var(--screen-b));
+  border-radius: 8px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  touch-action: none;
+}
+ 
+.grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+ 
+.grid-square {
+  transition: background-color 0.03s linear;
+}
+ 
+.grid.show-lines .grid-square {
+  outline: 1px solid rgba(0, 0, 0, 0.08);
+}
+ 
+/* ---------- knobs ---------- */
+.knob-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  padding: 0 4px;
+}
+ 
+.knob-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+ 
+.knob {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background:
+    repeating-conic-gradient(var(--cream) 0deg 8deg, #ded4b7 8deg 16deg);
+  box-shadow:
+    0 5px 0 var(--red-darker),
+    0 8px 14px rgba(0, 0, 0, 0.4);
+  position: relative;
+  transition: transform 0.15s ease;
+}
+ 
+.knob::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 6px; height: 22px;
+  background: var(--red-dark);
+  border-radius: 2px;
+  transform: translate(-50%, -70%);
+}
+ 
+.knob:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--red-darker), 0 4px 8px rgba(0,0,0,0.4);
+}
+ 
+.knob.spin { animation: spin-knob 0.4s ease; }
+@keyframes spin-knob {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(150deg); }
+}
+ 
+.knob-label {
+  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  color: var(--cream);
+  opacity: 0.85;
+  text-align: center;
+}
+ 
+.logo-plate {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--cream);
+  background: var(--red-darker);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+ 
+.screen.shake { animation: shake-screen 0.4s ease; }
+@keyframes shake-screen {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-6px, 3px); }
+  40% { transform: translate(6px, -3px); }
+  60% { transform: translate(-4px, 2px); }
+  80% { transform: translate(4px, -2px); }
+}
+ 
+/* ---------- dashboard ---------- */
+.dashboard {
+  background: var(--panel-bg);
+  border-radius: 20px;
+  padding: 22px 24px 26px;
+  width: min(280px, 100%);
+  box-shadow: 0 14px 26px var(--shadow);
+  transition: background 0.4s ease;
+}
+ 
+.dashboard h2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin: 0 0 16px;
+  color: var(--red);
+}
+ 
+.control {
+  margin-bottom: 16px;
+}
+ 
+.control label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+ 
+.control .value {
+  color: var(--red);
+  font-weight: 700;
+}
+ 
+.control input[type="range"] {
+  width: 100%;
+  accent-color: var(--red);
+}
+ 
+.control input[type="color"] {
+  width: 100%;
+  height: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  padding: 2px;
+  background: none;
+  cursor: pointer;
+}
+ 
+.control--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+ 
+.control--row label { margin-bottom: 0; }
+ 
+.toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 12px;
+  border: none;
+  background: #bdb7a2;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+ 
+.toggle[aria-pressed="true"] { background: var(--red); }
+ 
+.toggle-dot {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: left 0.18s ease;
+}
+ 
+.toggle[aria-pressed="true"] .toggle-dot { left: 21px; }
+ 
+.download-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 8px;
+  background: var(--red);
+  color: white;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+ 
+.download-btn:hover { background: var(--red-dark); }
+ 
+.hint {
+  font-size: 0.68rem;
+  line-height: 1.5;
+  opacity: 0.6;
+  margin: 14px 0 0;
+}
+ 
+/* ---------- focus states ---------- */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+ 
+/* ---------- responsive ---------- */
+@media (max-width: 720px) {
+  .toy { flex-direction: column; align-items: center; }
+  .dashboard { width: min(420px, 100%); }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .knob.spin, .screen.shake { animation: none; }
+}

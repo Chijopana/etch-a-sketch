@@ -1,18 +1,92 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Etch-a-Sketch</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Etch-a-Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="controls">
-    <button id="resizeBtn">Resize Grid</button>
-  </div>
-  <div class="container" id="gridContainer"></div>
-
+ 
+  <header class="brand">
+    <span class="brand-mark">✳</span>
+    <h1>ETCH-A-SKETCH</h1>
+    <span class="brand-sub">MAGIC SCREEN&trade;</span>
+  </header>
+ 
+  <main class="toy" id="toy">
+ 
+    <div class="toy-frame">
+ 
+      <div class="readout" id="readout">MODE: COLOR</div>
+ 
+      <div class="screen-bezel">
+        <div class="screen" id="screen">
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+ 
+      <div class="knob-row">
+        <div class="knob-unit">
+          <button class="knob" id="modeKnob" aria-label="Change draw mode" title="Turn to change mode"></button>
+          <span class="knob-label">MODE</span>
+        </div>
+ 
+        <div class="logo-plate">
+          <span>No. 960</span>
+        </div>
+ 
+        <div class="knob-unit">
+          <button class="knob knob--clear" id="clearKnob" aria-label="Shake to clear" title="Shake to clear"></button>
+          <span class="knob-label">SHAKE&nbsp;TO&nbsp;CLEAR</span>
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <aside class="dashboard">
+      <h2>Controls</h2>
+ 
+      <div class="control" id="colorControl">
+        <label for="colorPicker">Pen colour</label>
+        <input type="color" id="colorPicker" value="#2b2b2b" />
+      </div>
+ 
+      <div class="control">
+        <label for="brushSize">Brush size <span class="value" id="brushSizeValue">1</span></label>
+        <input type="range" id="brushSize" min="1" max="4" step="1" value="1" />
+      </div>
+ 
+      <div class="control">
+        <label for="gridSize">Grid density <span class="value" id="gridSizeValue">24 × 24</span></label>
+        <input type="range" id="gridSize" min="8" max="64" step="1" value="24" />
+      </div>
+ 
+      <div class="control control--row">
+        <label for="gridLines">Grid lines</label>
+        <button class="toggle" id="gridLines" aria-pressed="false">
+          <span class="toggle-dot"></span>
+        </button>
+      </div>
+ 
+      <div class="control control--row">
+        <label for="darkMode">Night light</label>
+        <button class="toggle" id="darkMode" aria-pressed="false">
+          <span class="toggle-dot"></span>
+        </button>
+      </div>
+ 
+      <button class="download-btn" id="downloadBtn">Save drawing as PNG</button>
+ 
+      <p class="hint">Click and drag across the screen to draw. Turn the left knob to cycle draw modes, shake the right knob to clear.</p>
+    </aside>
+ 
+  </main>
+ 
   <script src="script.js"></script>
 </body>
 </html>
+ 
